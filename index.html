@@ -1,72 +1,119 @@
 <!doctype html>
-<html>
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FastFit</title>
 
   <style>
-    /* 7) Contraste pobre a propósito */
+    /* ✅ 7) Contraste arreglado (texto oscuro sobre fondo claro) */
     body{
       margin:0;
       font-family: Arial, sans-serif;
       background:#f7f7f7;
-      color:#c9c9c9; /* texto clarito sobre fondo clarito */
+      color:#111827; /* gris muy oscuro */
+      line-height: 1.5;
     }
 
-    /* 8) Sin foco visible a propósito */
-    :focus { outline: none; }
+    /* ✅ 8) Foco visible (no lo quitamos, lo mejoramos) */
+    :focus-visible{
+      outline: 3px solid #2563eb;   /* azul fuerte */
+      outline-offset: 3px;
+    }
+
+    /* Skip link para teclado (extra, pero viene genial) */
+    .skip-link{
+      position:absolute;
+      top:-60px;
+      left:16px;
+      background:#111827;
+      color:white;
+      padding:10px 12px;
+      border-radius:10px;
+      text-decoration:none;
+      z-index:9999;
+      transition: top .15s ease;
+    }
+    .skip-link:focus{ top: 12px; }
+
+    header{
+      position:sticky;
+      top:0;
+      background:#ffffff;
+      border-bottom:1px solid #e5e7eb;
+      z-index: 50;
+    }
 
     .topbar{
-      position:sticky; top:0;
-      background:#fff;
-      border-bottom:1px solid #eee;
+      max-width:980px;
+      margin:0 auto;
       display:flex;
       gap:12px;
       align-items:center;
       padding:14px 16px;
     }
 
-    .brand{ font-weight:900; color:#d0d0d0; }
-    .menu{ margin-left:auto; display:flex; gap:10px; }
+    .brand{
+      font-weight:900;
+      color:#111827;
+      text-decoration:none;
+    }
 
-    /* 4) Menú con divs clicables */
-    .menu-item{
+    nav{ margin-left:auto; }
+    nav ul{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    nav a{
+      display:inline-block;
       padding:10px 12px;
       border-radius:12px;
-      cursor:pointer;
-      color:#d0d0d0;
+      text-decoration:none;
+      color:#111827;
     }
-    .menu-item:hover{ background:#f0f0f0; }
+    nav a:hover{ background:#f0f0f0; }
 
-    /* 4) Botón con div */
     .cta{
       padding:10px 12px;
       border-radius:12px;
-      background:#f1f1f1;
+      background:#111827;
+      color:#ffffff;
       cursor:pointer;
-      color:#d0d0d0;
+      border: 0;
+      font-weight: 700;
     }
+    .cta:hover{ background:#0b1220; }
 
-    .wrap{
+    main{
       max-width:980px;
       margin:0 auto;
       padding:22px 16px 60px;
     }
 
-    /* 2) “Título” mal: no es h1 */
-    .hero-title{
+    /* ✅ 2) Título real: h1 */
+    h1{
       font-size:44px;
       font-weight:900;
-      color:#d0d0d0;
-      margin-top:6px;
+      margin: 6px 0 0;
+      color:#111827;
+      letter-spacing: -.4px;
     }
-    .hero-sub{ margin-top:6px; color:#d4d4d4; }
+    .hero-sub{
+      margin-top:6px;
+      color:#374151; /* gris medio oscuro */
+    }
 
     .hero-img{
       width:100%;
       border-radius:18px;
       margin-top:16px;
+      border: 1px solid #e5e7eb;
+      display:block;
     }
 
     .cards{
@@ -75,191 +122,457 @@
       grid-template-columns: repeat(3, 1fr);
       gap:12px;
     }
+    @media (max-width: 900px){
+      .cards{ grid-template-columns: 1fr; }
+    }
+
     .card{
       background:#fff;
-      border:1px solid #eee;
+      border:1px solid #e5e7eb;
       border-radius:18px;
       padding:14px;
     }
-    .card-title{ font-weight:900; color:#d0d0d0; }
-    .card-text{ margin-top:6px; color:#c9c9c9; }
+    .card h2{
+      font-size:18px;
+      margin: 0;
+      font-weight:900;
+      color:#111827;
+    }
+    .card p{
+      margin:6px 0 0;
+      color:#374151;
+    }
 
-    /* 4) Comprar con div */
+    /* ✅ 4) Comprar es un botón real */
     .buy{
-      display:inline-block;
       margin-top:12px;
       padding:10px 12px;
       border-radius:12px;
-      background:#f2f2f2;
+      background:#f3f4f6;
       cursor:pointer;
-      color:#d0d0d0;
+      border: 1px solid #e5e7eb;
+      color:#111827;
+      font-weight:700;
+    }
+    .buy:hover{ background:#e5e7eb; }
+
+    section{ margin-top:36px; }
+
+    h3.section-title{
+      font-size:26px;
+      margin:0 0 10px;
+      font-weight:900;
+      color:#111827;
     }
 
-    .section{ margin-top:36px; }
-    .section-title{ font-size:26px; font-weight:900; color:#d0d0d0; }
-
-    .form{
-      margin-top:12px;
+    /* ✅ 6) Formulario con labels, y mensajes */
+    form{
       display:grid;
       gap:10px;
       max-width:420px;
     }
-
-    /* 6) Inputs sin label (solo placeholder) + 8) sin outline */
+    label{
+      font-weight: 700;
+      display:block;
+      margin-bottom: 6px;
+    }
     .input{
       padding:12px;
       border-radius:12px;
-      border:1px solid #e7e7e7;
+      border:1px solid #d1d5db;
       background:#fff;
-      color:#c9c9c9;
+      color:#111827;
+    }
+    .help{
+      margin-top: 6px;
+      font-size: 13px;
+      color:#4b5563;
+    }
+    .error{
+      margin-top: 6px;
+      font-size: 13px;
+      color:#b91c1c;
+      font-weight: 700;
     }
 
-    /* 4) Enviar con div */
     .send{
       padding:12px;
       border-radius:12px;
-      background:#f2f2f2;
+      background:#111827;
+      color:#ffffff;
       cursor:pointer;
-      color:#d0d0d0;
-      text-align:center;
+      border:0;
+      font-weight:800;
       width: fit-content;
     }
+    .send:hover{ background:#0b1220; }
 
-    /* Modal “a mano” */
+    footer{
+      border-top:1px solid #e5e7eb;
+      background:#ffffff;
+      padding: 18px 16px;
+      color:#374151;
+    }
+    footer .inner{
+      max-width:980px;
+      margin:0 auto;
+    }
+
+    /* ✅ Modal accesible + ARIA */
     .overlay{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,0.35);
+      background:rgba(0,0,0,0.45);
       display:none;
       align-items:center;
       justify-content:center;
       padding:18px;
     }
+    .overlay[aria-hidden="false"]{ display:flex; }
+
     .modal{
       width:min(520px, 95vw);
       background:#fff;
       border-radius:18px;
       padding:16px;
-      border:1px solid #eee;
+      border:1px solid #e5e7eb;
+      box-shadow: 0 18px 50px rgba(0,0,0,.25);
     }
-    .modal-title{ font-size:22px; font-weight:900; color:#d0d0d0; }
-    .modal-actions{ margin-top:12px; display:flex; gap:10px; justify-content:flex-end; }
+    .modal h2{
+      font-size:22px;
+      margin: 0 0 6px;
+      font-weight:900;
+      color:#111827;
+    }
+    .modal p{
+      margin: 0 0 12px;
+      color:#374151;
+    }
+    .modal-actions{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+    }
     .btn{
       padding:10px 12px;
       border-radius:12px;
-      background:#f2f2f2;
+      background:#f3f4f6;
       cursor:pointer;
-      color:#d0d0d0;
+      border: 1px solid #e5e7eb;
+      color:#111827;
+      font-weight:700;
+    }
+    .btn:hover{ background:#e5e7eb; }
+    .btn.primary{
+      background:#111827;
+      color:white;
+      border-color:#111827;
+    }
+    .btn.primary:hover{ background:#0b1220; }
+
+    /* helper */
+    .sr-only{
+      position:absolute !important;
+      width:1px; height:1px;
+      padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0);
+      white-space:nowrap; border:0;
     }
   </style>
 </head>
 
 <body>
-  <!-- 3) Sin landmarks semánticos (no header/nav/main/footer): todo div -->
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-  <div class="topbar">
-    <div class="brand">FastFit</div>
+  <!-- ✅ 3) Landmarks reales: header/nav/main/footer -->
+  <header>
+    <div class="topbar">
+      <a class="brand" href="#inicio">FastFit</a>
 
-    <div class="menu">
-      <div class="menu-item" data-go="#inicio">Inicio</div>
-      <div class="menu-item" data-go="#planes">Planes</div>
-      <div class="menu-item" data-go="#contacto">Contacto</div>
+      <nav aria-label="Navegación principal">
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <!-- ✅ 4) Botón real -->
+      <button class="cta" id="openModal" type="button" aria-haspopup="dialog">
+        Únete
+      </button>
     </div>
+  </header>
 
-    <div class="cta" id="openModal">Únete</div>
-  </div>
+  <main id="contenido">
+    <div id="inicio">
+      <!-- ✅ 2) h1 real -->
+      <h1>Entrena más rápido</h1>
+      <p class="hero-sub">Una web sencilla para apuntarte al gym.</p>
 
-  <div class="wrap" id="inicio">
-    <div class="hero-title">Entrena más rápido</div>
-    <div class="hero-sub">Una web sencilla para apuntarte al gym.</div>
+      <!-- ✅ 5) Imagen con alt -->
+      <img
+        class="hero-img"
+        src="https://picsum.photos/1200/500"
+        alt="Imagen decorativa de una sala de gimnasio con equipamiento de entrenamiento"
+      />
 
-    <!-- 5) Imagen sin alt -->
-    <img class="hero-img" src="https://picsum.photos/1200/500" />
+      <section id="planes" aria-labelledby="titulo-planes">
+        <h3 class="section-title" id="titulo-planes">Planes</h3>
 
-    <div class="cards" id="planes">
-      <div class="card">
-        <div class="card-title">Básico</div>
-        <div class="card-text">Acceso sala 24/7</div>
-        <div class="buy" data-plan="basico">Comprar</div>
-      </div>
+        <div class="cards">
+          <article class="card">
+            <h2>Básico</h2>
+            <p>Acceso sala 24/7</p>
+            <button class="buy" type="button" data-plan="basico">Comprar</button>
+          </article>
 
-      <div class="card">
-        <div class="card-title">Pro</div>
-        <div class="card-text">Clases + sala</div>
-        <div class="buy" data-plan="pro">Comprar</div>
-      </div>
+          <article class="card">
+            <h2>Pro</h2>
+            <p>Clases + sala</p>
+            <button class="buy" type="button" data-plan="pro">Comprar</button>
+          </article>
 
-      <div class="card">
-        <div class="card-title">Elite</div>
-        <div class="card-text">Entrenador personal</div>
-        <div class="buy" data-plan="elite">Comprar</div>
-      </div>
+          <article class="card">
+            <h2>Elite</h2>
+            <p>Entrenador personal</p>
+            <button class="buy" type="button" data-plan="elite">Comprar</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="contacto" aria-labelledby="titulo-contacto">
+        <h3 class="section-title" id="titulo-contacto">Contacto</h3>
+
+        <!-- ✅ 6) Form con labels + errores + required -->
+        <form id="contactForm" novalidate>
+          <div>
+            <label for="name">Nombre</label>
+            <input class="input" id="name" name="name" type="text" autocomplete="name" required />
+            <div class="help">Escribe tu nombre para poder dirigirnos a ti.</div>
+            <div class="error" id="errName" role="alert" aria-live="polite"></div>
+          </div>
+
+          <div>
+            <label for="email">Email</label>
+            <input class="input" id="email" name="email" type="email" autocomplete="email" required />
+            <div class="help">Usaremos tu email solo para responderte.</div>
+            <div class="error" id="errEmail" role="alert" aria-live="polite"></div>
+          </div>
+
+          <div>
+            <label for="message">Mensaje</label>
+            <textarea class="input" id="message" name="message" required></textarea>
+            <div class="help">Cuéntanos qué necesitas (mín. 10 caracteres).</div>
+            <div class="error" id="errMsg" role="alert" aria-live="polite"></div>
+          </div>
+
+          <button class="send" id="sendBtn" type="submit">Enviar</button>
+          <p id="formStatus" class="help" aria-live="polite"></p>
+        </form>
+      </section>
     </div>
+  </main>
 
-    <div class="section" id="contacto">
-      <div class="section-title">Contacto</div>
-
-      <div class="form">
-        <!-- 6) Inputs sin label -->
-        <input class="input" type="text" placeholder="Nombre" />
-        <input class="input" type="email" placeholder="Email" />
-        <input class="input" type="text" placeholder="Mensaje" />
-
-        <div class="send" id="sendBtn">Enviar</div>
-      </div>
+  <footer>
+    <div class="inner">
+      <strong>FastFit</strong> · Demo de accesibilidad básica · 2026
     </div>
-  </div>
+  </footer>
 
-  <!-- 4) Modal sin roles/ARIA + (gestión de foco inexistente) -->
-  <div class="overlay" id="overlay">
-    <div class="modal">
-      <div class="modal-title">Crear cuenta</div>
-      <div>Regístrate para empezar.</div>
+  <!-- ✅ 4 + 6) Modal accesible con roles/ARIA y gestión de foco -->
+  <div
+    class="overlay"
+    id="overlay"
+    aria-hidden="true"
+  >
+    <div
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+      aria-describedby="modalDesc"
+    >
+      <h2 id="modalTitle">Crear cuenta</h2>
+      <p id="modalDesc">Regístrate para empezar. Puedes cerrar con Escape.</p>
 
-      <div style="margin-top:10px; display:grid; gap:10px;">
-        <input class="input" type="text" placeholder="Usuario" />
-        <input class="input" type="password" placeholder="Contraseña" />
-      </div>
+      <form id="signupForm" novalidate>
+        <div style="margin-top:10px; display:grid; gap:10px;">
+          <div>
+            <label for="user">Usuario</label>
+            <input class="input" id="user" name="user" type="text" autocomplete="username" required />
+            <div class="error" id="errUser" role="alert" aria-live="polite"></div>
+          </div>
 
-      <div class="modal-actions">
-        <div class="btn" id="closeModal">Cerrar</div>
-        <div class="btn" id="saveModal">Guardar</div>
-      </div>
+          <div>
+            <label for="pass">Contraseña</label>
+            <input class="input" id="pass" name="pass" type="password" autocomplete="new-password" required minlength="6" />
+            <div class="help">Mínimo 6 caracteres.</div>
+            <div class="error" id="errPass" role="alert" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn" id="closeModal" type="button">Cerrar</button>
+          <button class="btn primary" id="saveModal" type="submit">Guardar</button>
+        </div>
+        <p class="help" id="signupStatus" aria-live="polite"></p>
+      </form>
     </div>
   </div>
 
   <script>
-    // 4) Interacciones solo con "click" en divs (sin soporte de teclado)
-    function goTo(hash){
-      const el = document.querySelector(hash);
-      if(el) el.scrollIntoView({behavior:"smooth"});
+    // Menú: ya son enlaces, así que no hace falta JS para navegar
+
+    // Comprar: botones accesibles por teclado y ratón
+    document.querySelectorAll(".buy").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        alert("Comprado: " + btn.getAttribute("data-plan"));
+      });
+    });
+
+    // ===== Modal accesible (foco + Escape + volver al botón que lo abrió) =====
+    const overlay = document.getElementById("overlay");
+    const openBtn = document.getElementById("openModal");
+    const closeBtn = document.getElementById("closeModal");
+    const firstField = document.getElementById("user");
+
+    let lastFocused = null;
+
+    function openModal(){
+      lastFocused = document.activeElement;
+      overlay.setAttribute("aria-hidden", "false");
+      // llevar foco al primer input
+      setTimeout(()=> firstField.focus(), 0);
+      document.addEventListener("keydown", onModalKeydown);
     }
 
-    document.querySelectorAll(".menu-item").forEach(item=>{
-      item.addEventListener("click", ()=> goTo(item.getAttribute("data-go")));
+    function closeModal(){
+      overlay.setAttribute("aria-hidden", "true");
+      document.removeEventListener("keydown", onModalKeydown);
+      // devolver foco al elemento anterior (normalmente el botón "Únete")
+      if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+    }
+
+    function onModalKeydown(e){
+      if (overlay.getAttribute("aria-hidden") === "true") return;
+
+      if (e.key === "Escape"){
+        e.preventDefault();
+        closeModal();
+        return;
+      }
+
+      // Trampa de foco simple (tab dentro del modal)
+      if (e.key === "Tab"){
+        const focusable = overlay.querySelectorAll(
+          'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first){
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last){
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+
+    // Cerrar modal al hacer click fuera (opcional)
+    overlay.addEventListener("click", (e)=>{
+      if (e.target === overlay) closeModal();
     });
 
-    document.querySelectorAll(".buy").forEach(btn=>{
-      btn.addEventListener("click", ()=> alert("Comprado: " + btn.getAttribute("data-plan")));
+    // ===== Validación simple (contacto) =====
+    const contactForm = document.getElementById("contactForm");
+    const status = document.getElementById("formStatus");
+
+    function setError(id, msg){
+      document.getElementById(id).textContent = msg;
+    }
+
+    contactForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      status.textContent = "";
+
+      const name = document.getElementById("name");
+      const email = document.getElementById("email");
+      const message = document.getElementById("message");
+
+      let ok = true;
+
+      setError("errName", "");
+      setError("errEmail", "");
+      setError("errMsg", "");
+
+      if (!name.value.trim()){
+        setError("errName", "Pon tu nombre.");
+        ok = false;
+      }
+      if (!email.value.trim() || !email.value.includes("@")){
+        setError("errEmail", "Pon un email válido.");
+        ok = false;
+      }
+      if (message.value.trim().length < 10){
+        setError("errMsg", "El mensaje debe tener al menos 10 caracteres.");
+        ok = false;
+      }
+
+      if (!ok){
+        status.textContent = "Revisa los campos marcados en rojo.";
+        return;
+      }
+
+      status.textContent = "Mensaje enviado (demo).";
+      contactForm.reset();
     });
 
-    const overlay = document.getElementById("overlay");
-    document.getElementById("openModal").addEventListener("click", ()=>{
-      overlay.style.display = "flex";
-    });
+    // ===== Validación simple (registro modal) =====
+    const signupForm = document.getElementById("signupForm");
+    const signupStatus = document.getElementById("signupStatus");
 
-    document.getElementById("closeModal").addEventListener("click", ()=>{
-      overlay.style.display = "none";
-    });
+    signupForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      signupStatus.textContent = "";
 
-    document.getElementById("saveModal").addEventListener("click", ()=>{
-      overlay.style.display = "none";
+      const user = document.getElementById("user");
+      const pass = document.getElementById("pass");
+
+      document.getElementById("errUser").textContent = "";
+      document.getElementById("errPass").textContent = "";
+
+      let ok = true;
+
+      if (!user.value.trim()){
+        document.getElementById("errUser").textContent = "El usuario es obligatorio.";
+        ok = false;
+      }
+      if (!pass.value || pass.value.length < 6){
+        document.getElementById("errPass").textContent = "La contraseña debe tener 6 caracteres o más.";
+        ok = false;
+      }
+
+      if (!ok){
+        signupStatus.textContent = "Corrige los errores antes de guardar.";
+        return;
+      }
+
+      signupStatus.textContent = "Cuenta guardada (demo).";
+      signupForm.reset();
+      closeModal();
       alert("Cuenta guardada");
-    });
-
-    document.getElementById("sendBtn").addEventListener("click", ()=>{
-      alert("Enviado");
     });
   </script>
 </body>
+</html>
+
 </html>
