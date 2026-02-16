@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FastFit</title>
+
+  <style>
+    /* 7) Contraste pobre a propósito */
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#f7f7f7;
+      color:#c9c9c9; /* texto clarito sobre fondo clarito */
+    }
+
+    /* 8) Sin foco visible a propósito */
+    :focus { outline: none; }
+
+    .topbar{
+      position:sticky; top:0;
+      background:#fff;
+      border-bottom:1px solid #eee;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:14px 16px;
+    }
+
+    .brand{ font-weight:900; color:#d0d0d0; }
+    .menu{ margin-left:auto; display:flex; gap:10px; }
+
+    /* 4) Menú con divs clicables */
+    .menu-item{
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      color:#d0d0d0;
+    }
+    .menu-item:hover{ background:#f0f0f0; }
+
+    /* 4) Botón con div */
+    .cta{
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f1f1f1;
+      cursor:pointer;
+      color:#d0d0d0;
+    }
+
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:22px 16px 60px;
+    }
+
+    /* 2) “Título” mal: no es h1 */
+    .hero-title{
+      font-size:44px;
+      font-weight:900;
+      color:#d0d0d0;
+      margin-top:6px;
+    }
+    .hero-sub{ margin-top:6px; color:#d4d4d4; }
+
+    .hero-img{
+      width:100%;
+      border-radius:18px;
+      margin-top:16px;
+    }
+
+    .cards{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .card{
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:18px;
+      padding:14px;
+    }
+    .card-title{ font-weight:900; color:#d0d0d0; }
+    .card-text{ margin-top:6px; color:#c9c9c9; }
+
+    /* 4) Comprar con div */
+    .buy{
+      display:inline-block;
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f2f2f2;
+      cursor:pointer;
+      color:#d0d0d0;
+    }
+
+    .section{ margin-top:36px; }
+    .section-title{ font-size:26px; font-weight:900; color:#d0d0d0; }
+
+    .form{
+      margin-top:12px;
+      display:grid;
+      gap:10px;
+      max-width:420px;
+    }
+
+    /* 6) Inputs sin label (solo placeholder) + 8) sin outline */
+    .input{
+      padding:12px;
+      border-radius:12px;
+      border:1px solid #e7e7e7;
+      background:#fff;
+      color:#c9c9c9;
+    }
+
+    /* 4) Enviar con div */
+    .send{
+      padding:12px;
+      border-radius:12px;
+      background:#f2f2f2;
+      cursor:pointer;
+      color:#d0d0d0;
+      text-align:center;
+      width: fit-content;
+    }
+
+    /* Modal “a mano” */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .modal{
+      width:min(520px, 95vw);
+      background:#fff;
+      border-radius:18px;
+      padding:16px;
+      border:1px solid #eee;
+    }
+    .modal-title{ font-size:22px; font-weight:900; color:#d0d0d0; }
+    .modal-actions{ margin-top:12px; display:flex; gap:10px; justify-content:flex-end; }
+    .btn{
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f2f2f2;
+      cursor:pointer;
+      color:#d0d0d0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 3) Sin landmarks semánticos (no header/nav/main/footer): todo div -->
+
+  <div class="topbar">
+    <div class="brand">FastFit</div>
+
+    <div class="menu">
+      <div class="menu-item" data-go="#inicio">Inicio</div>
+      <div class="menu-item" data-go="#planes">Planes</div>
+      <div class="menu-item" data-go="#contacto">Contacto</div>
+    </div>
+
+    <div class="cta" id="openModal">Únete</div>
+  </div>
+
+  <div class="wrap" id="inicio">
+    <div class="hero-title">Entrena más rápido</div>
+    <div class="hero-sub">Una web sencilla para apuntarte al gym.</div>
+
+    <!-- 5) Imagen sin alt -->
+    <img class="hero-img" src="https://picsum.photos/1200/500" />
+
+    <div class="cards" id="planes">
+      <div class="card">
+        <div class="card-title">Básico</div>
+        <div class="card-text">Acceso sala 24/7</div>
+        <div class="buy" data-plan="basico">Comprar</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Pro</div>
+        <div class="card-text">Clases + sala</div>
+        <div class="buy" data-plan="pro">Comprar</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Elite</div>
+        <div class="card-text">Entrenador personal</div>
+        <div class="buy" data-plan="elite">Comprar</div>
+      </div>
+    </div>
+
+    <div class="section" id="contacto">
+      <div class="section-title">Contacto</div>
+
+      <div class="form">
+        <!-- 6) Inputs sin label -->
+        <input class="input" type="text" placeholder="Nombre" />
+        <input class="input" type="email" placeholder="Email" />
+        <input class="input" type="text" placeholder="Mensaje" />
+
+        <div class="send" id="sendBtn">Enviar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4) Modal sin roles/ARIA + (gestión de foco inexistente) -->
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <div class="modal-title">Crear cuenta</div>
+      <div>Regístrate para empezar.</div>
+
+      <div style="margin-top:10px; display:grid; gap:10px;">
+        <input class="input" type="text" placeholder="Usuario" />
+        <input class="input" type="password" placeholder="Contraseña" />
+      </div>
+
+      <div class="modal-actions">
+        <div class="btn" id="closeModal">Cerrar</div>
+        <div class="btn" id="saveModal">Guardar</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 4) Interacciones solo con "click" en divs (sin soporte de teclado)
+    function goTo(hash){
+      const el = document.querySelector(hash);
+      if(el) el.scrollIntoView({behavior:"smooth"});
+    }
+
+    document.querySelectorAll(".menu-item").forEach(item=>{
+      item.addEventListener("click", ()=> goTo(item.getAttribute("data-go")));
+    });
+
+    document.querySelectorAll(".buy").forEach(btn=>{
+      btn.addEventListener("click", ()=> alert("Comprado: " + btn.getAttribute("data-plan")));
+    });
+
+    const overlay = document.getElementById("overlay");
+    document.getElementById("openModal").addEventListener("click", ()=>{
+      overlay.style.display = "flex";
+    });
+
+    document.getElementById("closeModal").addEventListener("click", ()=>{
+      overlay.style.display = "none";
+    });
+
+    document.getElementById("saveModal").addEventListener("click", ()=>{
+      overlay.style.display = "none";
+      alert("Cuenta guardada");
+    });
+
+    document.getElementById("sendBtn").addEventListener("click", ()=>{
+      alert("Enviado");
+    });
+  </script>
+</body>
+</html>
