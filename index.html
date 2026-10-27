@@ -6,7 +6,7 @@
   <title>FastFit</title>
 
   <style>
-    /* ✅ 7) Contraste arreglado (texto oscuro sobre fondo claro) */
+    /* 7- Contraste arreglado (texto oscuro sobre fondo claro) */
     body{
       margin:0;
       font-family: Arial, sans-serif;
@@ -15,13 +15,13 @@
       line-height: 1.5;
     }
 
-    /* ✅ 8) Foco visible (no lo quitamos, lo mejoramos) */
+    /* 8- Foco visible  */
     :focus-visible{
-      outline: 3px solid #2563eb;   /* azul fuerte */
+      outline: 3px solid #2563eb;   
       outline-offset: 3px;
     }
 
-    /* Skip link para teclado (extra, pero viene genial) */
+    /* Skip link para teclado */
     .skip-link{
       position:absolute;
       top:-60px;
@@ -95,7 +95,7 @@
       padding:22px 16px 60px;
     }
 
-    /* ✅ 2) Título real: h1 */
+    /* 2- Título: h1 */
     h1{
       font-size:44px;
       font-weight:900;
@@ -105,7 +105,7 @@
     }
     .hero-sub{
       margin-top:6px;
-      color:#374151; /* gris medio oscuro */
+      color:#374151; 
     }
 
     .hero-img{
@@ -143,7 +143,7 @@
       color:#374151;
     }
 
-    /* ✅ 4) Comprar es un botón real */
+    /* 4- Comprar es un botón real */
     .buy{
       margin-top:12px;
       padding:10px 12px;
@@ -165,7 +165,7 @@
       color:#111827;
     }
 
-    /* ✅ 6) Formulario con labels, y mensajes */
+    /* 6- Formulario con labels */
     form{
       display:grid;
       gap:10px;
@@ -271,7 +271,7 @@
     }
     .btn.primary:hover{ background:#0b1220; }
 
-    /* helper */
+   
     .sr-only{
       position:absolute !important;
       width:1px; height:1px;
@@ -285,7 +285,7 @@
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-  <!-- ✅ 3) Landmarks reales: header/nav/main/footer -->
+  <!-- 3- Landmarks reales -->
   <header>
     <div class="topbar">
       <a class="brand" href="#inicio">FastFit</a>
@@ -298,7 +298,6 @@
         </ul>
       </nav>
 
-      <!-- ✅ 4) Botón real -->
       <button class="cta" id="openModal" type="button" aria-haspopup="dialog">
         Únete
       </button>
@@ -307,11 +306,11 @@
 
   <main id="contenido">
     <div id="inicio">
-      <!-- ✅ 2) h1 real -->
+      <!-- 2- h1 real -->
       <h1>Entrena más rápido</h1>
       <p class="hero-sub">Una web sencilla para apuntarte al gym.</p>
 
-      <!-- ✅ 5) Imagen con alt -->
+      <!-- 5- Imagen con alt -->
       <img
         class="hero-img"
         src="https://picsum.photos/1200/500"
@@ -345,7 +344,7 @@
       <section id="contacto" aria-labelledby="titulo-contacto">
         <h3 class="section-title" id="titulo-contacto">Contacto</h3>
 
-        <!-- ✅ 6) Form con labels + errores + required -->
+        <!-- 6)- Form con labels + errores + required -->
         <form id="contactForm" novalidate>
           <div>
             <label for="name">Nombre</label>
@@ -381,7 +380,7 @@
     </div>
   </footer>
 
-  <!-- ✅ 4 + 6) Modal accesible con roles/ARIA y gestión de foco -->
+  <!-- 4 + 6- Modal accesible con roles y gestión de foco -->
   <div
     class="overlay"
     id="overlay"
@@ -423,16 +422,16 @@
   </div>
 
   <script>
-    // Menú: ya son enlaces, así que no hace falta JS para navegar
+    //Menu: ya son enlaces, así que no hace falta JS para navegar
 
-    // Comprar: botones accesibles por teclado y ratón
+    //Comprar: botones accesibles por teclado y ratón
     document.querySelectorAll(".buy").forEach(btn=>{
       btn.addEventListener("click", ()=>{
         alert("Comprado: " + btn.getAttribute("data-plan"));
       });
     });
 
-    // ===== Modal accesible (foco + Escape + volver al botón que lo abrió) =====
+    //Modal accesible (foco + Escape + volver al botón que lo abrió) =====
     const overlay = document.getElementById("overlay");
     const openBtn = document.getElementById("openModal");
     const closeBtn = document.getElementById("closeModal");
@@ -443,7 +442,7 @@
     function openModal(){
       lastFocused = document.activeElement;
       overlay.setAttribute("aria-hidden", "false");
-      // llevar foco al primer input
+      //llevar foco al primer input
       setTimeout(()=> firstField.focus(), 0);
       document.addEventListener("keydown", onModalKeydown);
     }
@@ -451,7 +450,7 @@
     function closeModal(){
       overlay.setAttribute("aria-hidden", "true");
       document.removeEventListener("keydown", onModalKeydown);
-      // devolver foco al elemento anterior (normalmente el botón "Únete")
+      //devolver foco al elemento anterior (normalmente el botón "Únete")
       if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
     }
 
@@ -464,7 +463,7 @@
         return;
       }
 
-      // Trampa de foco simple (tab dentro del modal)
+      //trampa de foco simple (tab dentro del modal)
       if (e.key === "Tab"){
         const focusable = overlay.querySelectorAll(
           'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
@@ -487,12 +486,12 @@
     openBtn.addEventListener("click", openModal);
     closeBtn.addEventListener("click", closeModal);
 
-    // Cerrar modal al hacer click fuera (opcional)
+    //cerrar modal al hacer click fuera (opcional)
     overlay.addEventListener("click", (e)=>{
       if (e.target === overlay) closeModal();
     });
 
-    // ===== Validación simple (contacto) =====
+    //contacto
     const contactForm = document.getElementById("contactForm");
     const status = document.getElementById("formStatus");
 
@@ -536,7 +535,7 @@
       contactForm.reset();
     });
 
-    // ===== Validación simple (registro modal) =====
+    //registro modal
     const signupForm = document.getElementById("signupForm");
     const signupStatus = document.getElementById("signupStatus");
 
